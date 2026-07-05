@@ -1,0 +1,34 @@
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Database files & backups
+*.sql.bak
+*.sql.log
+*.sql.tmp
+*.db
+*.sqlite
+*.log
+backup/
+dumps/
+uploads/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Environment variables & local configuration
+.env
+.env.local
+config.local.php
+config.local.ini

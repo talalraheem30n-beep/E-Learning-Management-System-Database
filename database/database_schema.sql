@@ -1,0 +1,178 @@
+﻿CREATE TABLE INSTRUCTOR (
+    Instructor_ID INT PRIMARY KEY AUTO_INCREMENT,
+    First_Name VARCHAR(100),
+    Last_Name VARCHAR(100),
+    Specialization VARCHAR(255),
+    Qualification VARCHAR(255),
+    Contact_No VARCHAR(20)
+);
+
+CREATE TABLE STUDENT (
+    Student_ID INT PRIMARY KEY AUTO_INCREMENT,
+    First_Name VARCHAR(100),
+    Last_Name VARCHAR(100),
+    Date_of_Birth DATE
+);
+
+CREATE TABLE COURSE (
+    Course_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Course_Title VARCHAR(255),
+    Description TEXT,
+    Duration VARCHAR(50),
+    FEE DECIMAL(10, 2),
+    Level VARCHAR(50),
+    Instructor_ID INT,
+    FOREIGN KEY (Instructor_ID) REFERENCES INSTRUCTOR(Instructor_ID) ON DELETE SET NULL
+);
+
+CREATE TABLE PAYMENT (
+    Slip_id INT PRIMARY KEY AUTO_INCREMENT,
+    Receipt_No VARCHAR(100),
+    Transaction_Status VARCHAR(50),
+    Payment_Date DATE,
+    Amount DECIMAL(10, 2),
+    Student_ID INT,
+    FOREIGN KEY (Student_ID) REFERENCES STUDENT(Student_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE CERTIFICATE (
+    Certificate_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Certificate_Code VARCHAR(50),
+    Verification_No VARCHAR(100),
+    Grade VARCHAR(5),
+    Completion_Status VARCHAR(50),
+    Issue_Date DATE,
+    Student_ID INT,
+    FOREIGN KEY (Student_ID) REFERENCES STUDENT(Student_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE NOTIFICATION (
+    UUID VARCHAR(100) PRIMARY KEY,
+    Type VARCHAR(50),
+    Date DATE,
+    Message TEXT,
+    Receiver VARCHAR(50),
+    Student_ID INT,
+    FOREIGN KEY (Student_ID) REFERENCES STUDENT(Student_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE STUDENT_PHONE (
+    Phone_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Student_ID INT,
+    Phone_No VARCHAR(20),
+    FOREIGN KEY (Student_ID) REFERENCES STUDENT(Student_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE STUDENT_EMAIL (
+    Email VARCHAR(255) PRIMARY KEY,
+    Student_ID INT,
+    FOREIGN KEY (Student_ID) REFERENCES STUDENT(Student_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE INSTRUCTOR_EMAIL (
+    Email VARCHAR(255) PRIMARY KEY,
+    Instructor_ID INT,
+    FOREIGN KEY (Instructor_ID) REFERENCES INSTRUCTOR(Instructor_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE PAYMENT_METHOD (
+    Slip_id INT PRIMARY KEY,
+    FOREIGN KEY (Slip_id) REFERENCES PAYMENT(Slip_id) ON DELETE CASCADE
+);
+
+CREATE TABLE ENROLLMENT (
+    Enrollment_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Student_ID INT,
+    Course_ID INT,
+    Date DATE,
+    Progress INT,
+    Grade VARCHAR(5),
+    FOREIGN KEY (Student_ID) REFERENCES STUDENT(Student_ID) ON DELETE CASCADE,
+    FOREIGN KEY (Course_ID) REFERENCES COURSE(Course_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE LESSON (
+    Lesson_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Lesson_Title VARCHAR(255),
+    Content_Type VARCHAR(100),
+    Duration VARCHAR(50),
+    Upload_Date DATE,
+    Sequence_No INT,
+    Course_ID INT,
+    FOREIGN KEY (Course_ID) REFERENCES COURSE(Course_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE ASSIGNMENT (
+    Assignment_Code INT PRIMARY KEY AUTO_INCREMENT,
+    Title VARCHAR(255),
+    Instructions TEXT,
+    Submission_Type VARCHAR(50),
+    Total_Marks INT,
+    Deadline DATE,
+    Course_ID INT,
+    FOREIGN KEY (Course_ID) REFERENCES COURSE(Course_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE ASSIGNMENT_SUBMISSION (
+    Submission_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Student_ID INT,
+    Assignment_Code INT,
+    Submission_Date DATE,
+    FOREIGN KEY (Student_ID) REFERENCES STUDENT(Student_ID) ON DELETE CASCADE,
+    FOREIGN KEY (Assignment_Code) REFERENCES ASSIGNMENT(Assignment_Code) ON DELETE CASCADE
+);
+
+CREATE TABLE QUIZ (
+    Quiz_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Quiz_Title VARCHAR(255),
+    Total_Marks INT,
+    Passing_Marks INT,
+    Attempts_Allowed INT,
+    Time_Limit INT,
+    Course_ID INT,
+    FOREIGN KEY (Course_ID) REFERENCES COURSE(Course_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE QUIZ_ATTEMPT (
+    Attempt_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Quiz_ID INT,
+    Student_ID INT,
+    Score INT,
+    Attempts_Date DATE,
+    FOREIGN KEY (Quiz_ID) REFERENCES QUIZ(Quiz_ID) ON DELETE CASCADE,
+    FOREIGN KEY (Student_ID) REFERENCES STUDENT(Student_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE LIVESESSION (
+    Session_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Session_Title VARCHAR(255),
+    Meeting_Link VARCHAR(255),
+    Date DATE,
+    Time TIME,
+    Instructor_ID INT,
+    Course_ID INT,
+    FOREIGN KEY (Instructor_ID) REFERENCES INSTRUCTOR(Instructor_ID) ON DELETE CASCADE,
+    FOREIGN KEY (Course_ID) REFERENCES COURSE(Course_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE LIVE_ATTENDANCE (
+    Student_ID INT,
+    Session_ID INT,
+    Attendance_Date DATE,
+    PRIMARY KEY (Student_ID, Session_ID, Attendance_Date),
+    FOREIGN KEY (Student_ID) REFERENCES STUDENT(Student_ID) ON DELETE CASCADE,
+    FOREIGN KEY (Session_ID) REFERENCES LIVESESSION(Session_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE FEEDBACK (
+    Feedback_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Feedback_Date DATE,
+    Category VARCHAR(100),
+    Status VARCHAR(50),
+    Rating INT,
+    Student_ID INT,
+    Course_ID INT,
+    FOREIGN KEY (Student_ID) REFERENCES STUDENT(Student_ID) ON DELETE CASCADE,
+    FOREIGN KEY (Course_ID) REFERENCES COURSE(Course_ID) ON DELETE CASCADE
+);
+
