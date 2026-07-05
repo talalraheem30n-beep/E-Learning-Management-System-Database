@@ -193,7 +193,7 @@ See [sample_queries.sql](database/sample_queries.sql) to run and analyze these q
 
 ## 👥 Author
 
-- **Talal Raheem** - *Database Architect & Software Engineer* - [GitHub](https://github.com/)
+- **Talal Raheem** - *Student Of BSBIT - Bahria University Lahore Campus* - [GitHub](https://github.com/)
 
 ---
 
